@@ -5,27 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>K-Pop Girlgroup Card Gacha</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #0f111a; }
         
-        /* Custom UI Colors based on screenshots */
+        /* Custom UI Colors */
         .bg-app { background-color: #131422; }
         .bg-card-dark { background-color: #1e1f32; }
         .text-btn-yellow { color: #1a1a24; }
         .bg-btn-yellow { background-color: #ffd166; }
         .bg-btn-yellow:hover { background-color: #ffc233; }
         
-        /* Card Holographic & Tier Effects */
-        .holo-epic {
-            position: relative;
-        }
+        /* Holographic & Tier Effects */
+        .holo-epic { position: relative; }
         .holo-epic::after {
             content: ""; position: absolute; inset: 0; border-radius: inherit;
             box-shadow: inset 0 0 20px rgba(236, 72, 153, 0.5);
@@ -33,10 +28,7 @@
             pointer-events: none;
         }
         
-        .holo-legendary {
-            position: relative;
-            animation: pulse-glow-leg 2s infinite alternate;
-        }
+        .holo-legendary { position: relative; animation: pulse-glow-leg 2s infinite alternate; }
         .holo-legendary::after {
             content: ""; position: absolute; inset: 0; border-radius: inherit;
             box-shadow: inset 0 0 30px rgba(59, 130, 246, 0.7);
@@ -44,10 +36,23 @@
             pointer-events: none;
         }
         
-        .holo-secret {
-            position: relative;
-            animation: pulse-glow-sec 1.2s infinite alternate;
+        .holo-risingstar { position: relative; animation: pulse-glow-rs 1.5s infinite alternate; }
+        .holo-risingstar::after {
+            content: ""; position: absolute; inset: 0; border-radius: inherit;
+            box-shadow: inset 0 0 25px rgba(249, 115, 22, 0.6);
+            background: linear-gradient(135deg, rgba(251, 146, 60, 0.3) 0%, rgba(239, 68, 68, 0.3) 100%);
+            pointer-events: none;
         }
+
+        .holo-superstar { position: relative; animation: pulse-glow-ss 1.5s infinite alternate; }
+        .holo-superstar::after {
+            content: ""; position: absolute; inset: 0; border-radius: inherit;
+            box-shadow: inset 0 0 25px rgba(168, 85, 247, 0.6);
+            background: linear-gradient(135deg, rgba(192, 132, 252, 0.3) 0%, rgba(147, 51, 234, 0.3) 100%);
+            pointer-events: none;
+        }
+
+        .holo-secret { position: relative; animation: pulse-glow-sec 1.2s infinite alternate; }
         .holo-secret::after {
             content: ""; position: absolute; inset: 0; border-radius: inherit;
             box-shadow: inset 0 0 40px rgba(255, 215, 0, 0.8);
@@ -57,80 +62,30 @@
             pointer-events: none;
         }
 
-        /* NEW: Rising Star & Superstar Effects */
-        .holo-risingstar {
-            position: relative;
-            animation: pulse-glow-rs 1.5s infinite alternate;
-        }
-        .holo-risingstar::after {
-            content: ""; position: absolute; inset: 0; border-radius: inherit;
-            box-shadow: inset 0 0 25px rgba(249, 115, 22, 0.6);
-            background: linear-gradient(135deg, rgba(251, 146, 60, 0.3) 0%, rgba(239, 68, 68, 0.3) 100%);
-            pointer-events: none;
-        }
-
-        .holo-superstar {
-            position: relative;
-            animation: pulse-glow-ss 1.5s infinite alternate;
-        }
-        .holo-superstar::after {
-            content: ""; position: absolute; inset: 0; border-radius: inherit;
-            box-shadow: inset 0 0 25px rgba(168, 85, 247, 0.6);
-            background: linear-gradient(135deg, rgba(192, 132, 252, 0.3) 0%, rgba(147, 51, 234, 0.3) 100%);
-            pointer-events: none;
-        }
-
         @keyframes rainbow-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes pulse-glow-leg { 0% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); } 100% { box-shadow: 0 0 35px rgba(59, 130, 246, 0.9); } }
-        @keyframes pulse-glow-sec { 0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); transform: scale(1); } 100% { box-shadow: 0 0 50px rgba(255, 215, 0, 1); transform: scale(1.02); } }
         @keyframes pulse-glow-rs { 0% { box-shadow: 0 0 15px rgba(249, 115, 22, 0.4); } 100% { box-shadow: 0 0 30px rgba(249, 115, 22, 0.8); } }
         @keyframes pulse-glow-ss { 0% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); } 100% { box-shadow: 0 0 30px rgba(168, 85, 247, 0.8); } }
+        @keyframes pulse-glow-sec { 0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); transform: scale(1); } 100% { box-shadow: 0 0 50px rgba(255, 215, 0, 1); transform: scale(1.02); } }
 
         /* Gacha Open Animations */
         .pack-container { perspective: 1000px; }
         .pack-shake { animation: shake-pack 0.5s cubic-bezier(.36,.07,.19,.97) infinite; }
-        
-        @keyframes shake-pack {
-            0%, 100% { transform: rotate(0deg) scale(1); }
-            25% { transform: rotate(-5deg) scale(1.05); }
-            50% { transform: rotate(5deg) scale(1.05); }
-            75% { transform: rotate(-5deg) scale(1.05); }
-        }
+        @keyframes shake-pack { 0%, 100% { transform: rotate(0deg) scale(1); } 25% { transform: rotate(-5deg) scale(1.05); } 50% { transform: rotate(5deg) scale(1.05); } 75% { transform: rotate(-5deg) scale(1.05); } }
 
-        /* 3D Card Flip */
-        .card-flip-inner {
-            position: relative;
-            width: 100%; height: 100%;
-            text-align: center;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-style: preserve-3d;
-        }
+        .card-flip-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .is-flipped .card-flip-inner { transform: rotateY(180deg); }
-        
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%; height: 100%;
-            backface-visibility: hidden;
-            border-radius: 1rem;
-        }
-        .card-front {
-            background: linear-gradient(135deg, #1e1f32, #131422);
-            border: 2px solid #2a2b42;
-            display: flex; align-items: center; justify-content: center;
-            color: #ffd166; font-size: 3rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
+        .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 1rem; }
+        .card-front { background: linear-gradient(135deg, #1e1f32, #131422); border: 2px solid #2a2b42; display: flex; align-items: center; justify-content: center; color: #ffd166; font-size: 3rem; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
         .card-back { transform: rotateY(180deg); }
-
+        
         .legendary-beam { animation: beam-rotate 4s linear infinite; }
         @keyframes beam-rotate { from { transform: rotate(0deg) scale(1.5); } to { transform: rotate(360deg) scale(1.5); } }
-        
-        /* Modal Backdrop */
         .backdrop-blur-custom { backdrop-filter: blur(10px); }
         
         /* Crate Thumbnails Gradients */
         .bg-crate-basic { background: linear-gradient(135deg, #053b2c, #0a7050); }
-        .bg-crate-premium { background: linear-gradient(135deg, #5b1738, #9b2256); }
+        .bg-crate-premium { background: linear-gradient(135deg, #b8860b, #daa520); }
         .bg-crate-elite { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); }
         .bg-crate-rising { background: linear-gradient(135deg, #4b134f, #c94b4b); }
         .bg-crate-iconic { background: linear-gradient(135deg, #141e30, #243b55); }
@@ -138,19 +93,14 @@
     </style>
 </head>
 <body class="bg-app text-slate-100 min-h-screen flex flex-col select-none">
-
-    <!-- Header Navigation -->
     <header class="bg-[#131422]/90 border-b border-[#2a2b42] sticky top-0 z-40 backdrop-blur-md px-4 py-3 flex justify-between items-center shadow-xl">
         <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('landing')">
-            <div class="bg-btn-yellow p-1.5 rounded-lg text-btn-yellow font-black text-xl shadow-md">
-                <i class="fa-solid fa-star"></i>
-            </div>
+            <div class="bg-btn-yellow p-1.5 rounded-lg text-btn-yellow font-black text-xl shadow-md"><i class="fa-solid fa-star"></i></div>
             <div>
                 <h1 class="font-extrabold text-white text-base sm:text-lg tracking-wide">K-POP GACHA</h1>
                 <p class="text-[10px] sm:text-xs text-gray-400">Girlgroup Card Collection</p>
             </div>
         </div>
-
         <div class="flex items-center space-x-2 sm:space-x-3">
             <div class="bg-[#1e1f32] border border-[#2a2b42] px-3 py-1.5 rounded-lg flex items-center space-x-2 shadow-inner">
                 <i class="fa-solid fa-coins text-[#ffd166] text-sm"></i>
@@ -162,7 +112,6 @@
         </div>
     </header>
 
-    <!-- VIEW 1: LANDING & PREVIEW SCREEN -->
     <div id="view-landing" class="flex-1 max-w-4xl w-full mx-auto p-4 flex flex-col justify-center items-center text-center space-y-6 my-auto">
         <div class="relative w-full max-w-lg aspect-[4/3] rounded-3xl overflow-hidden border border-[#2a2b42] shadow-2xl group">
             <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&w=1000&q=80" alt="K-Pop App Preview" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-700 opacity-80">
@@ -172,42 +121,25 @@
                 <p class="text-xs sm:text-sm text-gray-300 mt-2">Buka crate, kumpulkan photocard langka, dan lengkapi album idol K-Pop favoritmu!</p>
             </div>
         </div>
-
         <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 w-full max-w-md">
             <button onclick="switchView('store')" class="flex-1 bg-btn-yellow hover:bg-[#ffc233] text-btn-yellow font-extrabold py-3.5 px-6 rounded-xl shadow-xl transition transform active:scale-95 flex items-center justify-center space-x-2 text-base">
-                <i class="fa-solid fa-box-open"></i>
-                <span>Gacha Store</span>
+                <i class="fa-solid fa-box-open"></i><span>Gacha Store</span>
             </button>
             <button onclick="switchView('collection')" class="flex-1 bg-[#1e1f32] hover:bg-[#2a2b42] border border-[#2a2b42] text-white font-extrabold py-3.5 px-6 rounded-xl shadow-lg transition transform active:scale-95 flex items-center justify-center space-x-2 text-base">
-                <i class="fa-solid fa-book"></i>
-                <span>My Album</span>
+                <i class="fa-solid fa-book"></i><span>My Album</span>
             </button>
         </div>
     </div>
 
-    <!-- VIEW 2 & 3: MAIN GAME CONTAINER -->
     <main id="view-main" class="flex-1 max-w-4xl w-full mx-auto p-4 pb-20 hidden">
-        <!-- Tab Navigation Bar -->
         <div class="flex bg-[#1e1f32] border border-[#2a2b42] p-1.5 rounded-xl mb-6 shadow-xl text-xs sm:text-sm">
-            <button onclick="switchTab('crates')" id="tab-btn-crates" class="flex-1 py-2 rounded-lg font-bold transition flex items-center justify-center space-x-1 sm:space-x-2 bg-[#2a2b42] text-white shadow">
-                <i class="fa-solid fa-store"></i> <span class="hidden sm:inline">Store</span>
-            </button>
-            <button onclick="switchTab('collection')" id="tab-btn-collection" class="flex-1 py-2 rounded-lg font-bold transition flex items-center justify-center space-x-1 sm:space-x-2 text-gray-400 hover:text-white">
-                <i class="fa-solid fa-layer-group"></i> <span>Collection</span>
-            </button>
-            <button onclick="switchTab('album')" id="tab-btn-album" class="flex-1 py-2 rounded-lg font-bold transition flex items-center justify-center space-x-1 sm:space-x-2 text-gray-400 hover:text-white">
-                <i class="fa-solid fa-book-open"></i> <span>Album (<span id="collected-count">0</span>/<span id="total-count">0</span>)</span>
-            </button>
+            <button onclick="switchTab('crates')" id="tab-btn-crates" class="flex-1 py-2 rounded-lg font-bold transition flex items-center justify-center space-x-1 sm:space-x-2 bg-[#2a2b42] text-white shadow"><i class="fa-solid fa-store"></i> <span class="hidden sm:inline">Store</span></button>
+            <button onclick="switchTab('collection')" id="tab-btn-collection" class="flex-1 py-2 rounded-lg font-bold transition flex items-center justify-center space-x-1 sm:space-x-2 text-gray-400 hover:text-white"><i class="fa-solid fa-layer-group"></i> <span>Collection</span></button>
+            <button onclick="switchTab('album')" id="tab-btn-album" class="flex-1 py-2 rounded-lg font-bold transition flex items-center justify-center space-x-1 sm:space-x-2 text-gray-400 hover:text-white"><i class="fa-solid fa-book-open"></i> <span>Album (<span id="collected-count">0</span>/<span id="total-count">0</span>)</span></button>
         </div>
 
-        <!-- Tab 1: Crates Shop & Direct Card Purchase -->
         <div id="tab-crates" class="space-y-6">
-            <!-- Crates Grid (Styled like screenshot) -->
-            <div class="grid grid-cols-2 gap-4" id="crates-grid">
-                <!-- Dynamically populated crates -->
-            </div>
-
-            <!-- Direct Card Purchase Section -->
+            <div class="grid grid-cols-2 gap-4" id="crates-grid"></div>
             <div class="pt-6 border-t border-[#2a2b42]">
                 <div class="flex justify-between items-center mb-4">
                     <div>
@@ -215,14 +147,10 @@
                         <p class="text-[10px] text-gray-400">Beli photocard secara langsung (Tanpa Gacha)</p>
                     </div>
                 </div>
-                <!-- Horizontal scrollable direct store for better UX -->
-                <div class="flex overflow-x-auto space-x-3 pb-4 snap-x" id="direct-store-grid">
-                    <!-- Dynamically populated direct purchase cards -->
-                </div>
+                <div class="flex overflow-x-auto space-x-3 pb-4 snap-x" id="direct-store-grid"></div>
             </div>
         </div>
 
-        <!-- Tab 2: Inventory / Collection Album -->
         <div id="tab-inventory" class="hidden space-y-4">
             <div class="flex justify-between items-center bg-[#1e1f32] p-4 rounded-xl border border-[#2a2b42]">
                 <div>
@@ -240,7 +168,6 @@
                 </div>
             </div>
 
-            <!-- Filter Buttons -->
             <div class="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide">
                 <button onclick="filterCollection('all')" class="px-3 py-1.5 bg-[#1e1f32] text-white text-xs rounded-lg font-medium border border-[#2a2b42] whitespace-nowrap">Semua</button>
                 <button onclick="filterCollection('common')" class="px-3 py-1.5 bg-[#1e1f32] text-gray-300 text-xs rounded-lg font-medium border border-[#2a2b42] whitespace-nowrap">Common</button>
@@ -251,54 +178,34 @@
                 <button onclick="filterCollection('superstar')" class="px-3 py-1.5 bg-[#1e1f32] text-purple-400 text-xs rounded-lg font-medium border border-[#2a2b42] whitespace-nowrap">Superstar</button>
                 <button onclick="filterCollection('secret')" class="px-3 py-1.5 bg-[#1e1f32] text-[#ffd166] text-xs rounded-lg font-medium border border-[#ffd166]/50 whitespace-nowrap">Secret</button>
             </div>
-
-            <!-- Collection Grid -->
-            <div class="grid grid-cols-3 sm:grid-cols-4 gap-3" id="collection-grid">
-                <!-- Dynamically populated collection -->
-            </div>
+            <div class="grid grid-cols-3 sm:grid-cols-4 gap-3" id="collection-grid"></div>
         </div>
     </main>
 
-    <!-- Gacha Open & Result Modal (Matched to Screenshot 2) -->
     <div id="gacha-modal" class="fixed inset-0 bg-[#0f111a]/95 backdrop-blur-custom z-50 flex flex-col items-center justify-center p-4 hidden">
-        
-        <!-- Phase 1: Pack Shaking Animation -->
         <div id="gacha-animation-view" class="text-center flex flex-col items-center justify-center h-full w-full">
             <div id="legendary-beam-bg" class="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 via-pink-500 to-cyan-500 opacity-0 blur-2xl legendary-beam transition duration-500 z-0"></div>
-            
             <div class="pack-container relative z-10 w-48 h-64 mb-6 cursor-pointer" onclick="revealCard()">
                 <div id="animated-pack" class="w-full h-full rounded-xl bg-gradient-to-br from-indigo-600 to-purple-800 border-2 border-indigo-400 shadow-2xl flex items-center justify-center text-white text-5xl pack-shake">
                     <i class="fa-solid fa-box"></i>
                 </div>
                 <p id="tap-text" class="text-xs text-[#ffd166] font-bold mt-4 animate-pulse hidden">TAP UNTUK MEMBUKA</p>
             </div>
-            
             <h3 id="opening-title" class="text-lg font-bold text-white relative z-10">Membuka Crate...</h3>
         </div>
 
-        <!-- Phase 2: Result Reveal (Matches Screenshot 2) -->
         <div id="gacha-result-view" class="hidden flex-col items-center justify-center w-full max-w-sm">
             <div class="bg-[#1e1f32] rounded-2xl w-full p-4 relative shadow-2xl border border-[#2a2b42]">
-                <!-- Header -->
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-[#ffd166] font-extrabold text-lg">Gacha Result</h3>
-                    <button onclick="closeGachaModal()" class="bg-[#2a2b42] hover:bg-[#383a52] text-gray-400 w-8 h-8 rounded-lg flex items-center justify-center transition">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+                    <button onclick="closeGachaModal()" class="bg-[#2a2b42] hover:bg-[#383a52] text-gray-400 w-8 h-8 rounded-lg flex items-center justify-center transition"><i class="fa-solid fa-xmark"></i></button>
                 </div>
-
-                <!-- 3D Flippable Card -->
                 <div class="pack-container w-full aspect-[3/4] mb-4">
                     <div id="card-flipper" class="card-flip-inner">
-                        <!-- Front of card (Back of photocard) -->
-                        <div class="card-front">
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <!-- Back of card (The actual photocard) -->
+                        <div class="card-front"><i class="fa-solid fa-star"></i></div>
                         <div class="card-back rounded-xl p-1.5 bg-[#f0f0f0] shadow-inner" id="result-card-bg">
                             <div class="w-full h-full rounded-lg overflow-hidden relative">
                                 <img id="result-card-img" src="" alt="Photocard" class="w-full h-full object-cover">
-                                <!-- Sparkle Overlay -->
                                 <div id="special-effects-overlay" class="absolute inset-0 hidden">
                                     <div class="absolute inset-0 opacity-40 bg-[radial-gradient(circle,rgba(255,255,255,0.8)_10%,transparent_20%)] bg-[length:15px_15px] animate-pulse"></div>
                                 </div>
@@ -306,35 +213,25 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Text Detail (Centered) -->
                 <div class="text-center opacity-0 transition-opacity duration-500" id="result-details">
                     <h4 id="result-card-name" class="font-extrabold text-xl text-white">Idol Name</h4>
                     <p id="result-card-group" class="text-sm text-gray-400">Group Name</p>
                     <div class="mt-3 inline-block px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest border border-gray-600 text-gray-300" id="result-card-rarity">COMMON</div>
                 </div>
             </div>
-
             <div class="mt-4 w-full">
                 <button id="btn-draw-again" onclick="repeatDraw()" class="w-full bg-btn-yellow hover:bg-[#ffc233] text-btn-yellow py-3 rounded-xl font-bold text-sm shadow-lg transition">BUY AGAIN</button>
             </div>
         </div>
     </div>
 
-    <!-- Card Detail Modal -->
     <div id="detail-modal" class="fixed inset-0 bg-[#0f111a]/90 backdrop-blur-custom z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-[#1e1f32] border border-[#2a2b42] p-4 rounded-2xl max-w-[280px] w-full shadow-2xl relative">
-            <button onclick="closeDetailModal()" class="absolute top-3 right-3 bg-[#2a2b42] text-gray-400 w-7 h-7 rounded-lg flex items-center justify-center transition hover:text-white">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <!-- Lock Button -->
-            <button id="btn-lock-card" onclick="toggleLockCurrentCard()" class="absolute top-3 left-3 bg-[#2a2b42] text-gray-400 w-7 h-7 rounded-lg flex items-center justify-center transition hover:text-white">
-                <i class="fa-solid fa-unlock"></i>
-            </button>
+            <button onclick="closeDetailModal()" class="absolute top-3 right-3 bg-[#2a2b42] text-gray-400 w-7 h-7 rounded-lg flex items-center justify-center transition hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            <button id="btn-lock-card" onclick="toggleLockCurrentCard()" class="absolute top-3 left-3 bg-[#2a2b42] text-gray-400 w-7 h-7 rounded-lg flex items-center justify-center transition hover:text-white"><i class="fa-solid fa-unlock"></i></button>
             
             <div id="detail-card-wrapper" class="aspect-[3/4] rounded-xl overflow-hidden bg-white p-1 mb-3 mt-8 relative">
                 <img id="detail-card-img" src="" class="w-full h-full object-cover rounded-lg">
-                <!-- Lock Overlay -->
                 <div id="detail-lock-overlay" class="absolute inset-0 bg-black/50 flex items-center justify-center hidden rounded-lg m-1">
                     <i class="fa-solid fa-lock text-white text-4xl drop-shadow-lg"></i>
                 </div>
@@ -344,162 +241,150 @@
                 <h4 id="detail-card-name" class="font-bold text-lg text-white">Name</h4>
                 <p id="detail-card-group" class="text-xs text-gray-400 mb-2">Group</p>
                 <div id="detail-card-rarity" class="inline-block px-3 py-1 rounded-full text-[9px] font-bold border border-gray-600 text-gray-300 mb-3">RARITY</div>
-                
                 <div class="bg-[#131422] p-2 rounded-lg text-xs flex justify-between items-center mb-3">
                     <span class="text-gray-400">Dimiliki:</span>
                     <span id="detail-card-count" class="font-bold text-[#ffd166]">1</span>
                 </div>
-
-                <!-- Sell Button -->
                 <button id="btn-sell-card" onclick="sellCurrentCard()" class="w-full bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/50 py-2 rounded-lg font-bold text-xs transition flex justify-center items-center space-x-2">
-                    <span>Jual (1x) = </span>
-                    <i class="fa-solid fa-coins text-[#ffd166]"></i>
-                    <span id="detail-sell-price">50</span>
+                    <span>Jual (1x) = </span><i class="fa-solid fa-coins text-[#ffd166]"></i><span id="detail-sell-price">50</span>
                 </button>
             </div>
         </div>
     </div>
 
     <script>
-        // Database from provided GachaPool Array
+        // Data Gacha Sesuai Request JSON
         const rawGachaPool = [
             // Common Cards
-            { id: 621, name: "Hanni", group: "NewJeans", image: "hanni.webp", rarity: "common" },
-            { id: 623, name: "Karina", group: "aespa", image: "karina.webp", rarity: "common" },
-            { id: 624, name: "Minji", group: "NewJeans", image: "minji.webp", rarity: "common" },
-            { id: 625, name: "Jo Yuri", group: "Actress", image: "jyr.webp", rarity: "common" },
-            { id: 626, name: "Leeseo", group: "IVE", image: "leseo.webp", rarity: "common" },
-            { id: 627, name: "Ahyeon", group: "BABYMONSTER", image: "ahyeon.webp", rarity: "common" },
-            { id: 628, name: "Sana", group: "TWICE", image: "sanatw.webp", rarity: "common" },
-            { id: 629, name: "Ian", group: "HEARTS2HEARTS", image: "ianh2h.webp", rarity: "common" },
-            { id: 630, name: "Ryujin", group: "ITZY", image: "ryu.webp", rarity: "common" },
-            { id: 172, name: "Lisa", group: "BLACKPINK", image: "lalissa.webp", rarity: "common" },
-            { id: 175, name: "Jisso", group: "BLACKPINK", image: "jissobs.webp", rarity: "common" },
-            { id: 176, name: "Eunha", group: "VIVIZ", image: "eunhavi.webp", rarity: "common" },
-            { id: 177, name: "Hwayeon", group: "Ifeye", image: "hwayeonif.webp", rarity: "common" },
-            { id: 181, name: "Moka", group: "ILLIT", image: "mokaa.webp", rarity: "common" },
-            { id: 184, name: "Carmen", group: "HEARTS2HEARTS", image: "memen.webp", rarity: "common" },
-            { id: 191, name: "Yeji", group: "ITZY", image: "yeejii.webp", rarity: "common" },
-
+            { id: 621, name: "Hanni", group: "NewJeans", image: "hanni.webp", health: 100, maxHealth: 100, attack: 10, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 623, name: "Karina", group: "aespa", image: "karina.webp", health: 100, maxHealth: 100, attack: 11, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 624, name: "Minji", group: "NewJeans", image: "minji.webp", health: 110, maxHealth: 110, attack: 12, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 625, name: "Jo Yuri", group: "Actress", image: "jyr.webp", health: 113, maxHealth: 113, attack: 12, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 626, name: "Leeseo", group: "IVE", image: "leseo.webp", health: 110, maxHealth: 110, attack: 12, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 627, name: "Ahyeon", group: "BABYMONSTER", image: "ahyeon.webp", health: 113, maxHealth: 113, attack: 13, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 628, name: "Sana", group: "TWICE", image: "sanatw.webp", health: 112, maxHealth: 112, attack: 13, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 629, name: "Ian", group: "HEARTS2HEARTS", image: "ianh2h.webp", health: 111, maxHealth: 111, attack: 13, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 630, name: "Ryujin", group: "ITZY", image: "ryu.webp", health: 113, maxHealth: 113, attack: 14, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 172, name: "Lisa", group: "BLACKPINK", image: "lalissa.webp", health: 115, maxHealth: 115, attack: 13, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 175, name: "Jisso", group: "BLACKPINK", image: "jissobs.webp", health: 116, maxHealth: 116, attack: 12, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 176, name: "Eunha", group: "VIVIZ", image: "eunhavi.webp", health: 112, maxHealth: 112, attack: 14, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 177, name: "Hwayeon", group: "Ifeye", image: "hwayeonif.webp", health: 111, maxHealth: 111, attack: 13, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 181, name: "Moka", group: "ILLIT", image: "mokaa.webp", health: 113, maxHealth: 113, attack: 13, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 184, name: "Carmen", group: "HEARTS2HEARTS", image: "memen.webp", health: 111, maxHealth: 111, attack: 13, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 191, name: "Yeji", group: "ITZY", image: "yeejii.webp", health: 112, maxHealth: 112, attack: 14, rarity: "common", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            
             // Rare Cards
-            { id: 1630, name: "Danielle", group: "Actress", image: "danielle.webp", rarity: "rare" },
-            { id: 631, name: "Lisa", group: "BLACKPINK", image: "lisa.webp", rarity: "rare" },
-            { id: 632, name: "Winter", group: "aespa", image: "winter.webp", rarity: "rare" },
-            { id: 633, name: "Sakura", group: "LE-SSERAFIM", image: "sakura.webp", rarity: "rare" },
-            { id: 634, name: "Kazuha", group: "LE-SSERAFIM", image: "kazuha.webp", rarity: "rare" },
-            { id: 635, name: "Ningning", group: "aespa", image: "ning.webp", rarity: "rare" },
-            { id: 636, name: "Giselle", group: "aespa", image: "gisel.webp", rarity: "rare" },
-            { id: 637, name: "Haerin", group: "NewJeans", image: "haerin.webp", rarity: "rare" },
-            { id: 638, name: "Hyein", group: "NewJeans", image: "hyein.webp", rarity: "rare" },
-            { id: 639, name: "Jisoo", group: "BLACKPINK", image: "jisso.webp", rarity: "rare" },
-            { id: 19, name: "Dahyun", group: "TWICE", image: "dahyunn.webp", rarity: "rare" },
-            { id: 640, name: "Rose", group: "BLACKPINK", image: "rose.webp", rarity: "rare" },
-            { id: 641, name: "Rei", group: "IVE", image: "rei.webp", rarity: "rare" },
-            { id: 642, name: "Liz", group: "IVE", image: "liz.webp", rarity: "rare" },
-            { id: 643, name: "Wonhee", group: "ILLIT", image: "wonhee.webp", rarity: "rare" },
-            { id: 644, name: "Iroha", group: "ILLIT", image: "iroha.webp", rarity: "rare" },
-            { id: 645, name: "Minju", group: "ILLIT", image: "minju.webp", rarity: "rare" },
-            { id: 646, name: "Jiwoo", group: "HEARTS2HEARTS", image: "jiwoo.webp", rarity: "rare" },
-            { id: 647, name: "Rumi", group: "HUNTR/X", image: "rumi.webp", rarity: "rare" },
-            { id: 648, name: "Ruka", group: "BABYMONSTER", image: "ruka.webp", rarity: "rare" },
-            { id: 649, name: "Haewon", group: "NMIXX", image: "haewon.webp", rarity: "rare" },
-            { id: 76, name: "Jung So-min", group: "Actress", image: "somin.webp", rarity: "rare" },
-            { id: 77, name: "Seorina", group: "Actress", image: "rina.webp", rarity: "rare" },
-            { id: 78, name: "Han Sohee", group: "Actress", image: "soheee.webp", rarity: "rare" },
-            { id: 79, name: "Haum", group: "KiiiKiii", image: "haum.webp", rarity: "rare" },
-            { id: 178, name: "Rahee", group: "Ifeye", image: "raheeif.webp", rarity: "rare" },
-            { id: 179, name: "Junn", group: "HEARTS2HEARTS", image: "junn1.webp", rarity: "rare" },
-            { id: 182, name: "Rora", group: "BABYMONSTER", image: "rorra.webp", rarity: "rare" },
-            { id: 190, name: "Leesol", group: "KiiiKiii", image: "leesool.webp", rarity: "rare" },
-            { id: 192, name: "Shin Yuna", group: "ITZY", image: "yuunaa.webp", rarity: "rare" },
-
+            { id: 1630, name: "Danielle", group: "Actress", image: "danielle.webp", health: 125, maxHealth: 125, attack: 14, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 631, name: "Lisa", group: "BLACKPINK", image: "lisa.webp", health: 120, maxHealth: 120, attack: 15, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 632, name: "Winter", group: "aespa", image: "winter.webp", health: 130, maxHealth: 130, attack: 13, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 633, name: "Sakura", group: "LE-SSERAFIM", image: "sakura.webp", health: 125, maxHealth: 125, attack: 16, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 634, name: "Kazuha", group: "LE-SSERAFIM", image: "kazuha.webp", health: 130, maxHealth: 130, attack: 15, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 635, name: "Ningning", group: "aespa", image: "ning.webp", health: 120, maxHealth: 120, attack: 15, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 636, name: "Giselle", group: "aespa", image: "gisel.webp", health: 125, maxHealth: 125, attack: 13, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 637, name: "Haerin", group: "NewJeans", image: "haerin.webp", health: 125, maxHealth: 125, attack: 14, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 638, name: "Hyein", group: "NewJeans", image: "hyein.webp", health: 120, maxHealth: 120, attack: 13, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 639, name: "Jisoo", group: "BLACKPINK", image: "jisso.webp", health: 130, maxHealth: 130, attack: 14, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 19, name: "Dahyun", group: "TWICE", image: "dahyunn.webp", health: 128, maxHealth: 128, attack: 15, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 640, name: "Rose", group: "BLACKPINK", image: "rose.webp", health: 125, maxHealth: 125, attack: 16, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 641, name: "Rei", group: "IVE", image: "rei.webp", health: 120, maxHealth: 120, attack: 14, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 642, name: "Liz", group: "IVE", image: "liz.webp", health: 115, maxHealth: 115, attack: 15, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 643, name: "Wonhee", group: "ILLIT", image: "wonhee.webp", health: 120, maxHealth: 120, attack: 14, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 644, name: "Iroha", group: "ILLIT", image: "iroha.webp", health: 125, maxHealth: 125, attack: 15, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 645, name: "Minju", group: "ILLIT", image: "minju.webp", health: 115, maxHealth: 115, attack: 16, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 646, name: "Jiwoo", group: "HEARTS2HEARTS", image: "jiwoo.webp", health: 125, maxHealth: 125, attack: 15, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 647, name: "Rumi", group: "HUNTR/X", image: "rumi.webp", health: 130, maxHealth: 130, attack: 16, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 648, name: "Ruka", group: "BABYMONSTER", image: "ruka.webp", health: 125, maxHealth: 125, attack: 17, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 649, name: "Haewon", group: "NMIXX", image: "haewon.webp", health: 128, maxHealth: 128, attack: 15, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 76, name: "Jung So-min", group: "Actress", image: "somin.webp", health: 119, maxHealth: 119, attack: 15, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 77, name: "Seorina", group: "Actress", image: "rina.webp", health: 123, maxHealth: 123, attack: 18, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 78, name: "Han Sohee", group: "Actress", image: "soheee.webp", health: 125, maxHealth: 125, attack: 18, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 79, name: "Haum", group: "KiiiKiii", image: "haum.webp", health: 125, maxHealth: 123, attack: 15, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 178, name: "Rahee", group: "Ifeye", image: "raheeif.webp", health: 123, maxHealth: 178, attack: 16, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 179, name: "Junn", group: "HEARTS2HEARTS", image: "junn1.webp", health: 127, maxHealth: 127, attack: 18, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 182, name: "Rora", group: "BABYMONSTER", image: "rorra.webp", health: 126, maxHealth: 126, attack: 17, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 190, name: "Leesol", group: "KiiiKiii", image: "leesool.webp", health: 126, maxHealth: 126, attack: 17, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 192, name: "Shin Yuna", group: "ITZY", image: "yuunaa.webp", health: 124, maxHealth: 124, attack: 17, rarity: "rare", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            
             // Epic Cards
-            { id: 650, name: "Wonyoung", group: "IVE", image: "wonyung.webp", rarity: "epic" },
-            { id: 651, name: "Yujin", group: "IVE", image: "yujin.webp", rarity: "epic" },
-            { id: 652, name: "Chaewon", group: "LE-SSERAFIM", image: "chaewon.webp", rarity: "epic" },
-            { id: 653, name: "Yunjin", group: "LE-SSERAFIM", image: "yunjin.webp", rarity: "epic" },
-            { id: 654, name: "Eunchae", group: "LE-SSERAFIM", image: "eunchae.webp", rarity: "epic" },
-            { id: 655, name: "Youngseo", group: "ILLIT", image: "young.webp", rarity: "epic" },
-            { id: 656, name: "Pharita", group: "BABYMONSTER", image: "pharita.webp", rarity: "epic" },
-            { id: 657, name: "Jiyu", group: "KiiiKiii", image: "jiyu.webp", rarity: "epic" },
-            { id: 88, name: "Sullyoon", group: "NMIXX", image: "sully.webp", rarity: "epic" },
-            { id: 89, name: "Kang Hyewon", group: "Actress", image: "hyew.webp", rarity: "epic" },
-            { id: 90, name: "Nayeon", group: "TWICE", image: "nay.webp", rarity: "epic" },
-            { id: 180, name: "Momo", group: "TWICE", image: "momoh.webp", rarity: "epic" },
-            { id: 183, name: "Rami", group: "BABYMONSTER", image: "rammi.webp", rarity: "epic" },
+            { id: 650, name: "Wonyoung", group: "IVE", image: "wonyung.webp", health: 130, maxHealth: 130, attack: 17, rarity: "epic", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 651, name: "Yujin", group: "IVE", image: "yujin.webp", health: 135, maxHealth: 135, attack: 15, rarity: "epic", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 652, name: "Chaewon", group: "LE-SSERAFIM", image: "chaewon.webp", health: 130, maxHealth: 130, attack: 17, rarity: "epic", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 653, name: "Yunjin", group: "LE-SSERAFIM", image: "yunjin.webp", health: 130, maxHealth: 130, attack: 16, rarity: "epic", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 654, name: "Eunchae", group: "LE-SSERAFIM", image: "eunchae.webp", health: 133, maxHealth: 133, attack: 16, rarity: "epic", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 655, name: "Youngseo", group: "ILLIT", image: "young.webp", health: 130, maxHealth: 130, attack: 15, rarity: "epic", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 656, name: "Pharita", group: "BABYMONSTER", image: "pharita.webp", health: 140, maxHealth: 140, attack: 16, rarity: "epic", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 657, name: "Jiyu", group: "KiiiKiii", image: "jiyu.webp", health: 138, maxHealth: 138, attack: 17, rarity: "epic", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 88, name: "Sullyoon", group: "NMIXX", image: "sully.webp", health: 125, maxHealth: 127, attack: 19, rarity: "epic", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 89, name: "Kang Hyewon", group: "Actress", image: "hyew.webp", health: 129, maxHealth: 129, attack: 17, rarity: "epic", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 90, name: "Nayeon", group: "TWICE", image: "nay.webp", health: 128, maxHealth: 128, attack: 20, rarity: "epic", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 180, name: "Momo", group: "TWICE", image: "momoh.webp", health: 129, maxHealth: 129, attack: 21, rarity: "epic", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 183, name: "Rami", group: "BABYMONSTER", image: "rammi.webp", health: 128, maxHealth: 128, attack: 20, rarity: "epic", wins: 0, battles: 0, favorite: false, upgrades: 0 },
 
             // Legendary Cards
-            { id: 658, name: "Haerin", group: "NewJeans", image: "haerinL.webp", rarity: "legendary" },
-            { id: 659, name: "Yoona", group: "SNSD", image: "yoonaL.webp", rarity: "legendary" },
-            { id: 660, name: "IU", group: "Soloist", image: "iuL.webp", rarity: "legendary" },
-            { id: 661, name: "Taeyeon", group: "SNSD", image: "taeyonL.webp", rarity: "legendary" },
-            { id: 662, name: "Carmen", group: "HEARTS2HEARTS", image: "carmenL.webp", rarity: "legendary" },
-            { id: 663, name: "Asa", group: "BABYMONSTER", image: "asaL.webp", rarity: "legendary" },
-            { id: 664, name: "Yeji", group: "ITZY", image: "yejiL.webp", rarity: "legendary" },
-            { id: 665, name: "Dahyun", group: "TWICE", image: "dahyunL.webp", rarity: "legendary" },
-            { id: 185, name: "POTD IU", group: "Actress", image: "lgiu.webp", rarity: "legendary" },
-            { id: 186, name: "POTD Liz", group: "IVE", image: "lgliz.webp", rarity: "legendary" },
-            { id: 187, name: "POTD Kang Hyewon", group: "Actress", image: "lghyewon.webp", rarity: "legendary" },
-            { id: 188, name: "POTD Winter", group: "aespa", image: "lgwinter.webp", rarity: "legendary" },
-            { id: 189, name: "POTD Momo", group: "TWICE", image: "lgmomo.webp", rarity: "legendary" },
+            { id: 658, name: "Haerin", group: "NewJeans", image: "haerinL.webp", health: 140, maxHealth: 140, attack: 18, rarity: "legendary", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 659, name: "Yoona", group: "SNSD", image: "yoonaL.webp", health: 140, maxHealth: 140, attack: 17, rarity: "legendary", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 660, name: "IU", group: "Soloist", image: "iuL.webp", health: 140, maxHealth: 140, attack: 17, rarity: "legendary", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 661, name: "Taeyeon", group: "SNSD", image: "taeyonL.webp", health: 138, maxHealth: 138, attack: 19, rarity: "legendary", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 662, name: "Carmen", group: "HEARTS2HEARTS", image: "carmenL.webp", health: 145, maxHealth: 145, attack: 18, rarity: "legendary", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 663, name: "Asa", group: "BABYMONSTER", image: "asaL.webp", health: 155, maxHealth: 155, attack: 18, rarity: "legendary", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 664, name: "Yeji", group: "ITZY", image: "yejiL.webp", health: 148, maxHealth: 148, attack: 19, rarity: "legendary", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 665, name: "Dahyun", group: "TWICE", image: "dahyunL.webp", health: 160, maxHealth: 160, attack: 17, rarity: "legendary", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 185, name: "POTD IU", group: "Actress", image: "lgiu.webp", health: 155, maxHealth: 155, attack: 24, rarity: "legendary", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 186, name: "POTD Liz", group: "IVE", image: "lgliz.webp", health: 152, maxHealth: 152, attack: 23, rarity: "legendary", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 187, name: "POTD Kang Hyewon", group: "Actress", image: "lghyewon.webp", health: 149, maxHealth: 149, attack: 22, rarity: "legendary", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 188, name: "POTD Winter", group: "aespa", image: "lgwinter.webp", health: 157, maxHealth: 157, attack: 24, rarity: "legendary", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 189, name: "POTD Momo", group: "TWICE", image: "lgmomo.webp", health: 150, maxHealth: 150, attack: 24, rarity: "legendary", wins: 0, battles: 0, favorite: false, upgrades: 0 },
 
             // RisingStar Cards
-            { id: 46, name: "Jennie", group: "BLACKPINK", image: "jennie2.webp", rarity: "risingstar" },
-            { id: 47, name: "Karina", group: "aespa", image: "karina2.webp", rarity: "risingstar" },
-            { id: 48, name: "Hanni", group: "NewJeans", image: "hanni2.webp", rarity: "risingstar" },
-            { id: 49, name: "Carmen", group: "HEARTS2HEARTS", image: "carmen2.webp", rarity: "risingstar" },
-            { id: 50, name: "IU", group: "Soloist", image: "iu2.webp", rarity: "risingstar" },
-            { id: 51, name: "Yoona", group: "SNSD", image: "yoona2.webp", rarity: "risingstar" },
-            { id: 52, name: "Mira", group: "HUNTR/X", image: "mira2.webp", rarity: "risingstar" },
-            { id: 53, name: "Rora", group: "BABYMONSTER", image: "rora2.webp", rarity: "risingstar" },
-            { id: 54, name: "Rose", group: "BLACKPINK", image: "rose2.webp", rarity: "risingstar" },
-            { id: 164, name: "My IU", group: "Soloist", image: "myiu.webp", rarity: "risingstar" },
-            { id: 165, name: "My Go Younjung", group: "Actress", image: "mygyj.webp", rarity: "risingstar" },
-            { id: 166, name: "My Jiwoo", group: "HEARTS2HEARTS", image: "myjiwoo.webp", rarity: "risingstar" },
-            { id: 167, name: "My Rei", group: "IVE", image: "myrei.webp", rarity: "risingstar" },
-            { id: 168, name: "My IU (Gold)", group: "Soloist", image: "myiugd.webp", rarity: "risingstar" },
-            { id: 170, name: "My Han Sohee", group: "Actress", image: "mysohee.webp", rarity: "risingstar" },
+            { id: 46, name: "Jennie", group: "BLACKPINK", image: "jennie2.webp", health: 200, maxHealth: 200, attack: 25, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 47, name: "Karina", group: "aespa", image: "karina2.webp", health: 220, maxHealth: 220, attack: 28, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 48, name: "Hanni", group: "NewJeans", image: "hanni2.webp", health: 210, maxHealth: 210, attack: 26, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 49, name: "Carmen", group: "HEARTS2HEARTS", image: "carmen2.webp", health: 230, maxHealth: 230, attack: 30, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 50, name: "IU", group: "Soloist", image: "iu2.webp", health: 240, maxHealth: 240, attack: 32, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 51, name: "Yoona", group: "SNSD", image: "yoona2.webp", health: 235, maxHealth: 235, attack: 29, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 52, name: "Mira", group: "HUNTR/X", image: "mira2.webp", health: 215, maxHealth: 215, attack: 25, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 53, name: "Rora", group: "BABYMONSTER", image: "rora2.webp", health: 220, maxHealth: 220, attack: 26, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 54, name: "Rose", group: "BLACKPINK", image: "rose2.webp", health: 235, maxHealth: 235, attack: 25, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 164, name: "My IU", group: "Soloist", image: "myiu.webp", health: 219, maxHealth: 219, attack: 26, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 165, name: "My Go Younjung", group: "Actress", image: "mygyj.webp", health: 217, maxHealth: 217, attack: 26, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 166, name: "My Jiwoo", group: "HEARTS2HEARTS", image: "myjiwoo.webp", health: 222, maxHealth: 222, attack: 25, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 167, name: "My Rei", group: "IVE", image: "myrei.webp", health: 218, maxHealth: 218, attack: 25, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },  
+            { id: 168, name: "My IU (Gold)", group: "Soloist", image: "myiugd.webp", health: 219, maxHealth: 219, attack: 28, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 }, 
+            { id: 170, name: "My Han Sohee", group: "Actress", image: "mysohee.webp", health: 220, maxHealth: 220, attack: 25, rarity: "risingstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
 
             // Superstar Cards
-            { id: 55, name: "Han Sohee", group: "Actress", image: "han_sohee.webp", rarity: "superstar" },
-            { id: 56, name: "Go Younjung", group: "Actress", image: "go_younjung.webp", rarity: "superstar" },
-            { id: 57, name: "Bae Suzy", group: "Actress", image: "bae_suzy.webp", rarity: "superstar" },
-            { id: 58, name: "Park Shin Hye", group: "Actress", image: "park_shin_hye.webp", rarity: "superstar" },
-            { id: 59, name: "Kim Yoo Jung", group: "Actress", image: "kim_yoojung.webp", rarity: "superstar" },
-            { id: 60, name: "Shin Eun-Soo", group: "Actress", image: "eunsoo.webp", rarity: "superstar" },
-            { id: 68, name: "Valentine's Choi Soo-Young", group: "Actress", image: "vlcsy1.webp", rarity: "superstar" },
-            { id: 69, name: "Valentine's Go Youn-Jung", group: "Actress", image: "vlgyj1.webp", rarity: "superstar" },
-            { id: 70, name: "Valentine's Im Yoon Ah", group: "Actress", image: "vlyon1.webp", rarity: "superstar" },
-            { id: 71, name: "Valentine's Kang Hye-Won", group: "Actress", image: "vlhye1.webp", rarity: "superstar" },
-            { id: 157, name: "Retro Carmen", group: "HEARTS2HEARTS", image: "carmenrt.webp", rarity: "superstar" },
-            { id: 158, name: "Retro Minji", group: "NewJeans", image: "minjirt.webp", rarity: "superstar" },
-            { id: 159, name: "Retro Wonhee", group: "ILLIT", image: "wonheert.webp", rarity: "superstar" },
-            { id: 160, name: "Retro Yunjin", group: "LE-SSERAFIM", image: "yunjinrt.webp", rarity: "superstar" },
-            { id: 161, name: "Retro Ryujin", group: "ITZY", image: "ryujinrt.webp", rarity: "superstar" },
-            { id: 162, name: "Devil's Haerin", group: "NewJeans", image: "haerindv.webp", rarity: "superstar" },
-            { id: 163, name: "Devil's Ahyeon", group: "BABYMONSTER", image: "ahyeondv.webp", rarity: "superstar" },
-            { id: 169, name: "Devil's Ahyeon (Gold)", group: "BABYMONSTER", image: "ahyeondvgd.webp", rarity: "superstar" },
+            { id: 55, name: "Han Sohee", group: "Actress", image: "han_sohee.webp", health: 215, maxHealth: 215, attack: 29, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 56, name: "Go Younjung", group: "Actress", image: "go_younjung.webp", health: 235, maxHealth: 235, attack: 27, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 57, name: "Bae Suzy", group: "Actress", image: "bae_suzy.webp", health: 225, maxHealth: 225, attack: 30, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 58, name: "Park Shin Hye", group: "Actress", image: "park_shin_hye.webp", health: 220, maxHealth: 220, attack: 27, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 59, name: "Kim Yoo Jung", group: "Actress", image: "kim_yoojung.webp", health: 223, maxHealth: 223, attack: 28, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 60, name: "Shin Eun-Soo", group: "Actress", image: "eunsoo.webp", health: 185, maxHealth: 185, attack: 23, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 68, name: "Valentine's Choi Soo-Young", group: "Actress", image: "vlcsy1.webp", health: 228, maxHealth: 228, attack: 30, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 69, name: "Valentine's Go Youn-Jung", group: "Actress", image: "vlgyj1.webp", health: 231, maxHealth: 231, attack: 31, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 70, name: "Valentine's Im Yoon Ah", group: "Actress", image: "vlyon1.webp", health: 233, maxHealth: 233, attack: 32, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 71, name: "Valentine's Kang Hye-Won", group: "Actress", image: "vlhye1.webp", health: 235, maxHealth: 235, attack: 33, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 157, name: "Retro Carmen", group: "HEARTS2HEARTS", image: "carmenrt.webp", health: 233, maxHealth: 233, attack: 26, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 158, name: "Retro Minji", group: "NewJeans", image: "minjirt.webp", health: 235, maxHealth: 235, attack: 25, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },        
+            { id: 159, name: "Retro Wonhee", group: "ILLIT", image: "wonheert.webp", health: 230, maxHealth: 230, attack: 27, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 160, name: "Retro Yunjin", group: "LE-SSERAFIM", image: "yunjinrt.webp", health: 234, maxHealth: 234, attack: 28, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 161, name: "Retro Ryujin", group: "ITZY", image: "ryujinrt.webp", health: 232, maxHealth: 232, attack: 27, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 162, name: "Devil's Haerin", group: "NewJeans", image: "haerindv.webp", health: 228, maxHealth: 228, attack: 28, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 163, name: "Devil's Ahyeon", group: "BABYMONSTER", image: "ahyeondv.webp", health: 229, maxHealth: 229, attack: 29, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 169, name: "Devil's Ahyeon (Gold)", group: "BABYMONSTER", image: "ahyeondvgd.webp", health: 229, maxHealth: 229, attack: 31, rarity: "superstar", wins: 0, battles: 0, favorite: false, upgrades: 0 },
 
-            // Secret Cards - TIDAK BISA DIJUAL
-            { id: 61, name: "The Golden Jo Yuri", group: "Actress", image: "yuri1.webp", rarity: "secret" },
-            { id: 62, name: "The Golden Kim Da-mi", group: "Actress", image: "goldkim.webp", rarity: "secret" },
-            { id: 63, name: "The Golden Kwon Eun-bi", group: "Actress", image: "keunbi.webp", rarity: "secret" },
-            { id: 64, name: "Idol Wonhee", group: "ILLIT", image: "idolswonhee.webp", rarity: "secret" },
-            { id: 65, name: "Idol Danielle", group: "Actress", image: "idolsdanielle.webp", rarity: "secret" },
-            { id: 66, name: "Idol Hyeri", group: "aespa", image: "idolshyeri.webp", rarity: "secret" },
-            { id: 67, name: "Agent Wonyoung", group: "Agent-07", image: "agentwonyung.webp", rarity: "secret" }
+            // Secret Cards (Limited/Special)
+            { id: 61, name: "The Golden Jo Yuri", group: "Actress", image: "yuri1.webp", health: 245, maxHealth: 245, attack: 28, rarity: "secret", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 62, name: "The Golden Kim Da-mi", group: "Actress", image: "goldkim.webp", health: 239, maxHealth: 239, attack: 30, rarity: "secret", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 63, name: "The Golden Kwon Eun-bi", group: "Actress", image: "keunbi.webp", health: 241, maxHealth: 241, attack: 32, rarity: "secret", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 64, name: "Idol Wonhee", group: "ILLIT", image: "idolswonhee.webp", health: 245, maxHealth: 245, attack: 36, rarity: "secret", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 65, name: "Idol Danielle", group: "Actress", image: "idolsdanielle.webp", health: 248, maxHealth: 248, attack: 34, rarity: "secret", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 66, name: "Idol Hyeri", group: "aespa", image: "idolshyeri.webp", health: 245, maxHealth: 245, attack: 32, rarity: "secret", wins: 0, battles: 0, favorite: false, upgrades: 0 },
+            { id: 67, name: "Agent Wonyoung", group: "Agent-07", image: "agentwonyung.webp", health: 247, maxHealth: 247, attack: 34, rarity: "secret", wins: 0, battles: 0, favorite: false, upgrades: 0 }
         ];
 
-        // Format mapping paths & adding logic info
-        const cardsDatabase = rawGachaPool.map(card => ({
-            id: card.id,
-            name: card.name,
-            group: card.group,
-            rarity: card.rarity,
-            image: `cards/${card.image}` // Strictly force local image file
-        }));
+        // Strictly use local path 'cards/filename.ext'
+        const cardsDatabase = rawGachaPool.map(card => ({ ...card, image: `cards/${card.image}` }));
 
-        // Helper untuk info Rarity (Warna, Harga Beli, Harga Jual)
         function getRarityInfo(rarity) {
             const r = rarity.toLowerCase();
             switch(r) {
@@ -514,7 +399,6 @@
             }
         }
 
-        // Crates Configuration
         const cratesConfig = [
             { id: 'basic', name: 'Basic Crate', desc: 'Contains common idols only', cost: 40, cssClass: 'bg-crate-basic', titleImg: 'BASIC CARDS', odds: { common: 1.0, rare: 0.0, epic: 0.0, legendary: 0.0, risingstar: 0.0, superstar: 0.0, secret: 0.0 } },
             { id: 'premium', name: 'Premium Crate', desc: 'Contains common and rare idols', cost: 80, cssClass: 'bg-crate-premium', titleImg: 'PREMIUM CARDS', odds: { common: 0.80, rare: 0.20, epic: 0.0, legendary: 0.0, risingstar: 0.0, superstar: 0.0, secret: 0.0 } },
@@ -524,7 +408,6 @@
             { id: 'secret', name: 'Golden St*rs × Agent-07', desc: 'Contains common, rare, epic, legendary idols and secret', cost: 500, cssClass: 'bg-crate-secret', titleImg: 'SECRET HUNTERS', odds: { common: 0.10, rare: 0.25, epic: 0.30, legendary: 0.20, risingstar: 0.05, superstar: 0.05, secret: 0.05 } }
         ];
 
-        // Global State
         let userCoins = 1500;
         let userInventory = {}; 
         let lockedCards = {}; 
@@ -532,9 +415,8 @@
         let pendingDrawCard = null;
         let activeFilter = 'all';
         let detailCurrentCardId = null;
-        let viewMode = 'collection'; // Track view mode for inventory tab
+        let viewMode = 'collection'; 
 
-        // Initialize App
         window.onload = function() {
             loadGameData();
             renderCrates();
@@ -547,7 +429,6 @@
             const savedCoins = localStorage.getItem('kpop_tcg_coins');
             const savedInventory = localStorage.getItem('kpop_tcg_inventory');
             const savedLocks = localStorage.getItem('kpop_tcg_locks');
-            
             if (savedCoins !== null) userCoins = parseInt(savedCoins);
             if (savedInventory !== null) userInventory = JSON.parse(savedInventory);
             if (savedLocks !== null) lockedCards = JSON.parse(savedLocks);
@@ -562,7 +443,6 @@
         function switchView(viewName) {
             const landing = document.getElementById('view-landing');
             const main = document.getElementById('view-main');
-
             if (viewName === 'landing') {
                 landing.classList.remove('hidden');
                 main.classList.add('hidden');
@@ -576,12 +456,10 @@
         function switchTab(tabName) {
             const tabCrates = document.getElementById('tab-crates');
             const tabInv = document.getElementById('tab-inventory');
-            
             const btnCrates = document.getElementById('tab-btn-crates');
             const btnCollection = document.getElementById('tab-btn-collection');
             const btnAlbum = document.getElementById('tab-btn-album');
 
-            // Reset tab button states
             const inactiveClass = "flex-1 py-2 rounded-lg font-bold text-xs sm:text-sm transition flex items-center justify-center space-x-1 sm:space-x-2 text-gray-400 hover:text-white";
             const activeClass = "flex-1 py-2 rounded-lg font-bold text-xs sm:text-sm transition flex items-center justify-center space-x-1 sm:space-x-2 bg-[#2a2b42] text-white shadow";
             
@@ -598,7 +476,6 @@
                 tabInv.classList.remove('hidden');
                 btnCollection.className = activeClass;
                 viewMode = 'collection';
-                
                 document.getElementById('inventory-title').textContent = "Koleksi Saya";
                 document.getElementById('inventory-subtitle').textContent = "Kartu yang sudah didapatkan";
                 renderCollection();
@@ -607,7 +484,6 @@
                 tabInv.classList.remove('hidden');
                 btnAlbum.className = activeClass;
                 viewMode = 'album';
-                
                 document.getElementById('inventory-title').textContent = "Album Photocard";
                 document.getElementById('inventory-subtitle').textContent = "Seluruh daftar kartu K-Pop";
                 renderCollection();
@@ -617,7 +493,6 @@
         function renderCrates() {
             const container = document.getElementById('crates-grid');
             container.innerHTML = '';
-
             cratesConfig.forEach(crate => {
                 const card = document.createElement('div');
                 card.className = 'bg-card-dark border border-[#2a2b42] rounded-2xl overflow-hidden flex flex-col justify-between';
@@ -634,9 +509,7 @@
                         </div>
                     </div>
                     <div class="px-3 pb-3">
-                        <button onclick="buyCrate('${crate.id}')" class="w-full bg-btn-yellow hover:bg-[#ffc233] text-btn-yellow font-extrabold py-2.5 rounded-lg text-sm transition">
-                            BUY
-                        </button>
+                        <button onclick="buyCrate('${crate.id}')" class="w-full bg-btn-yellow hover:bg-[#ffc233] text-btn-yellow font-extrabold py-2.5 rounded-lg text-sm transition">BUY</button>
                     </div>
                 `;
                 container.appendChild(card);
@@ -646,8 +519,6 @@
         function renderDirectStore() {
             const container = document.getElementById('direct-store-grid');
             container.innerHTML = '';
-
-            // Show ONLY common & rare cards in direct store
             cardsDatabase.filter(c => c.rarity === 'common' || c.rarity === 'rare').forEach(card => {
                 const rInfo = getRarityInfo(card.rarity);
                 const item = document.createElement('div');
@@ -672,17 +543,13 @@
         function buyCardDirect(cardId) {
             const card = cardsDatabase.find(c => c.id === cardId);
             if (!card) return;
-
             const rInfo = getRarityInfo(card.rarity);
-            if (userCoins < rInfo.cost) {
-                showToast("Koin tidak cukup!");
-                return;
-            }
-
+            if (userCoins < rInfo.cost) { showToast("Koin tidak cukup!"); return; }
+            
             userCoins -= rInfo.cost;
             if (!userInventory[card.id]) userInventory[card.id] = 0;
             userInventory[card.id]++;
-
+            
             updateCoinDisplay();
             saveGameData();
             showToast(`Berhasil membeli ${card.name}! Cek Album.`);
@@ -691,15 +558,10 @@
         function buyCrate(crateId) {
             const crate = cratesConfig.find(c => c.id === crateId);
             if (!crate) return;
-
-            if (userCoins < crate.cost) {
-                showToast("Koin tidak cukup!");
-                return;
-            }
-
+            if (userCoins < crate.cost) { showToast("Koin tidak cukup!"); return; }
+            
             userCoins -= crate.cost;
             updateCoinDisplay();
-            
             currentActiveCrate = crate;
             startGachaAnimation();
         }
@@ -727,23 +589,19 @@
             animView.classList.remove('hidden');
             resultView.classList.add('hidden');
             
-            // Reset state
             beamBg.className = "absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 via-pink-500 to-cyan-500 opacity-0 blur-2xl legendary-beam transition duration-500 z-0";
             packEl.className = "w-full h-full rounded-xl bg-gradient-to-br from-indigo-600 to-purple-800 border-2 border-indigo-400 shadow-2xl flex items-center justify-center text-white text-5xl pack-shake";
             document.getElementById('opening-title').textContent = "Membuka Crate...";
             tapText.classList.add('hidden');
             
-            // Determine result immediately but hide it
             rollCardResult();
 
-            // Pack shakes for 2 seconds, then prompts user to tap
             setTimeout(() => {
                 packEl.classList.remove('pack-shake');
                 packEl.classList.add('animate-bounce');
                 document.getElementById('opening-title').textContent = "Pack Siap!";
                 tapText.classList.remove('hidden');
                 
-                // Show aura if high tier
                 if (['legendary', 'secret', 'risingstar', 'superstar'].includes(pendingDrawCard.rarity)) {
                     beamBg.className = "absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 via-cyan-400 to-purple-500 opacity-70 blur-3xl legendary-beam transition duration-500 z-0";
                     document.getElementById('opening-title').textContent = "✨ HIGH TIER DETECTED ✨";
@@ -766,31 +624,24 @@
             }
 
             const availableCards = cardsDatabase.filter(c => c.rarity === selectedRarity);
-            // Safety check if category is empty
-            if(availableCards.length === 0) {
-                pendingDrawCard = cardsDatabase[0];
-            } else {
-                pendingDrawCard = availableCards[Math.floor(Math.random() * availableCards.length)];
-            }
+            if(availableCards.length === 0) pendingDrawCard = cardsDatabase[0];
+            else pendingDrawCard = availableCards[Math.floor(Math.random() * availableCards.length)];
         }
 
         function revealCard() {
             if (!pendingDrawCard) return;
             const tapText = document.getElementById('tap-text');
-            if (tapText.classList.contains('hidden')) return; // Prevents clicking during initial shake
+            if (tapText.classList.contains('hidden')) return; 
 
-            // Save to inventory
             if (!userInventory[pendingDrawCard.id]) userInventory[pendingDrawCard.id] = 0;
             userInventory[pendingDrawCard.id]++;
             saveGameData();
 
-            // Setup UI for flip
             const animView = document.getElementById('gacha-animation-view');
             const resultView = document.getElementById('gacha-result-view');
             const flipper = document.getElementById('card-flipper');
             const resultDetails = document.getElementById('result-details');
             
-            // Reset flip state
             flipper.parentElement.classList.remove('is-flipped');
             resultDetails.classList.add('opacity-0');
 
@@ -798,52 +649,32 @@
             resultView.classList.remove('hidden');
             resultView.classList.add('flex');
 
-            // Set Card Data
             document.getElementById('result-card-name').textContent = pendingDrawCard.name;
             document.getElementById('result-card-group').textContent = pendingDrawCard.group;
             
             const imgEl = document.getElementById('result-card-img');
             imgEl.src = pendingDrawCard.image;
-            // No fallback, strictly local photo
 
             const rInfo = getRarityInfo(pendingDrawCard.rarity);
             const rarityBadge = document.getElementById('result-card-rarity');
             const specialOverlay = document.getElementById('special-effects-overlay');
             const cardBg = document.getElementById('result-card-bg');
 
-            // Reset effects
             cardBg.className = "card-back rounded-xl p-1.5 bg-[#f0f0f0] shadow-inner";
             specialOverlay.classList.add('hidden');
 
             rarityBadge.className = `mt-3 inline-block px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest border ${rInfo.border} ${rInfo.color} ${rInfo.bg}`;
             rarityBadge.textContent = rInfo.name;
 
-            // Apply special holographic classes based on rarity
-            if (pendingDrawCard.rarity === 'epic') {
-                cardBg.classList.add('holo-epic');
-                specialOverlay.classList.remove('hidden');
-            } else if (pendingDrawCard.rarity === 'legendary') {
-                cardBg.classList.add('holo-legendary');
-                specialOverlay.classList.remove('hidden');
-            } else if (pendingDrawCard.rarity === 'risingstar') {
-                cardBg.classList.add('holo-risingstar');
-                specialOverlay.classList.remove('hidden');
-            } else if (pendingDrawCard.rarity === 'superstar') {
-                cardBg.classList.add('holo-superstar');
-                specialOverlay.classList.remove('hidden');
-            } else if (pendingDrawCard.rarity === 'secret') {
-                cardBg.classList.add('holo-secret');
-                specialOverlay.classList.remove('hidden');
-                rarityBadge.classList.add('animate-pulse');
-            }
+            if (pendingDrawCard.rarity === 'epic') { cardBg.classList.add('holo-epic'); specialOverlay.classList.remove('hidden'); }
+            else if (pendingDrawCard.rarity === 'legendary') { cardBg.classList.add('holo-legendary'); specialOverlay.classList.remove('hidden'); }
+            else if (pendingDrawCard.rarity === 'risingstar') { cardBg.classList.add('holo-risingstar'); specialOverlay.classList.remove('hidden'); }
+            else if (pendingDrawCard.rarity === 'superstar') { cardBg.classList.add('holo-superstar'); specialOverlay.classList.remove('hidden'); }
+            else if (pendingDrawCard.rarity === 'secret') { cardBg.classList.add('holo-secret'); specialOverlay.classList.remove('hidden'); rarityBadge.classList.add('animate-pulse'); }
 
-            // Trigger Flip Animation
             setTimeout(() => {
                 flipper.parentElement.classList.add('is-flipped');
-                // Reveal details after flip completes
-                setTimeout(() => {
-                    resultDetails.classList.remove('opacity-0');
-                }, 800);
+                setTimeout(() => resultDetails.classList.remove('opacity-0'), 800);
             }, 100);
         }
 
@@ -869,7 +700,6 @@
         function renderCollection() {
             const grid = document.getElementById('collection-grid');
             grid.innerHTML = '';
-
             let collectedUnique = 0;
 
             cardsDatabase.forEach(card => {
@@ -881,10 +711,9 @@
                 const count = userInventory[card.id] || 0;
                 const isOwned = count > 0;
                 
-                // Active Filter check
                 if (activeFilter !== 'all' && card.rarity !== activeFilter) return;
-
-                // View Mode Logic: If in Collection mode, only show owned cards
+                
+                // Collection view = hanya tunjukkan yang dipunya. Album view = tunjukkan semua
                 if (viewMode === 'collection' && !isOwned) return;
 
                 const isLocked = lockedCards[card.id];
@@ -892,10 +721,7 @@
                 
                 const item = document.createElement('div');
                 item.className = `bg-card-dark border rounded-xl overflow-hidden flex flex-col justify-between transition relative ${isOwned ? 'border-[#2a2b42] cursor-pointer hover:border-gray-500' : 'border-[#1e1f32] opacity-40 grayscale'}`;
-                
-                if (isOwned) {
-                    item.onclick = () => openDetailModal(card);
-                }
+                if (isOwned) item.onclick = () => openDetailModal(card);
 
                 item.innerHTML = `
                     <div class="relative aspect-[3/4] bg-white p-0.5">
@@ -928,24 +754,21 @@
             document.getElementById('detail-card-group').textContent = card.group;
             document.getElementById('detail-card-count').textContent = count;
             
-            // Set Sell Button
             const sellBtn = document.getElementById('btn-sell-card');
             const sellPrice = document.getElementById('detail-sell-price');
             if(rInfo.sell > 0) {
                 sellPrice.textContent = rInfo.sell;
                 sellBtn.classList.remove('hidden');
             } else {
-                sellBtn.classList.add('hidden'); // e.g. Secret card cannot be sold
+                sellBtn.classList.add('hidden');
             }
 
             const imgEl = document.getElementById('detail-card-img');
             imgEl.src = card.image;
-            // No fallback, strictly local photo
 
             const wrapper = document.getElementById('detail-card-wrapper');
             const rarityBadge = document.getElementById('detail-card-rarity');
 
-            // Reset classes
             wrapper.className = "aspect-[3/4] rounded-xl overflow-hidden bg-white p-1 mb-3 mt-8 relative";
             if (card.rarity === 'epic') wrapper.classList.add('holo-epic');
             if (card.rarity === 'legendary') wrapper.classList.add('holo-legendary');
@@ -961,12 +784,10 @@
 
         function toggleLockCurrentCard() {
             if (!detailCurrentCardId) return;
-            lockedCards[detailCurrentCardId] = !lockedCards[detailCurrentCardId]; // Toggle boolean
+            lockedCards[detailCurrentCardId] = !lockedCards[detailCurrentCardId];
             saveGameData();
-            
             updateDetailModalLockState();
-            renderCollection(); // Update grid icon
-            
+            renderCollection();
             showToast(lockedCards[detailCurrentCardId] ? "Kartu Dikunci (Aman)" : "Kartu Terbuka (Bisa Dijual)");
         }
 
@@ -991,21 +812,14 @@
 
         function sellCurrentCard() {
             if (!detailCurrentCardId) return;
-            if (lockedCards[detailCurrentCardId]) {
-                showToast("Buka kunci (Unlock) kartu terlebih dahulu!");
-                return;
-            }
+            if (lockedCards[detailCurrentCardId]) { showToast("Buka kunci (Unlock) kartu terlebih dahulu!"); return; }
             
             const card = cardsDatabase.find(c => c.id === detailCurrentCardId);
             const count = userInventory[card.id] || 0;
-            
             if (count <= 0) return;
             
             const rInfo = getRarityInfo(card.rarity);
-            if (rInfo.sell <= 0) {
-                showToast("Kartu jenis ini tidak bisa dijual!");
-                return;
-            }
+            if (rInfo.sell <= 0) { showToast("Kartu jenis ini tidak bisa dijual!"); return; }
 
             userInventory[card.id]--;
             userCoins += rInfo.sell;
@@ -1028,7 +842,7 @@
             let earnedCoins = 0;
 
             for (const cardId in userInventory) {
-                if (lockedCards[cardId]) continue; // Jangan jual yang dikunci
+                if (lockedCards[cardId]) continue; 
                 
                 let count = userInventory[cardId];
                 if (count > 1) {
@@ -1037,7 +851,7 @@
                     
                     const rInfo = getRarityInfo(card.rarity);
                     if (rInfo.sell > 0) {
-                        const sellAmount = count - 1; // Sisa 1
+                        const sellAmount = count - 1; 
                         earnedCoins += (sellAmount * rInfo.sell);
                         totalSold += sellAmount;
                         userInventory[cardId] = 1; 
